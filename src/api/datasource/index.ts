@@ -1,5 +1,5 @@
-import FirestoreDS from './firestore-ds';
+import JsonDS from './json-ds';
 
-const DataRepo = new FirestoreDS();
+const DataRepo = new JsonDS();
 
 export default DataRepo;

@@ -1,6 +1,8 @@
 import type { Store } from '#/types/store';
 import { create } from 'zustand';
 
+const CURRENT_USER_KEY = 'current-user-v1';
+
 type StoreFields = Pick<Store, 'statusFilter' | 'theme' | 'email'>;
 
 const initialState: StoreFields = {
@@ -9,9 +11,20 @@ const initialState: StoreFields = {
   email: undefined,
 };
 
+const readEmailFromStorage = (): string | undefined => {
+  const raw = localStorage.getItem(CURRENT_USER_KEY);
+  if (!raw) return undefined;
+  try {
+    const parsed = JSON.parse(raw) as { email?: string };
+    return parsed.email;
+  } catch {
+    return undefined;
+  }
+};
+
 export const useAppStore = create<Store>((set) => {
   return {
-    email: initialState.email,
+    email: readEmailFromStorage() ?? initialState.email,
     statusFilter:
       (localStorage.getItem('statusFilter') as Store['statusFilter']) ||
       initialState.statusFilter,

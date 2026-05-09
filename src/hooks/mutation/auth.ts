@@ -1,5 +1,4 @@
 import DataRepo from '#/api/datasource';
-import { auth } from '#/integrations/firebase';
 import { useAppStore } from '#/store';
 import type {
   EmailAndPasswordLoginType,
@@ -9,7 +8,6 @@ import type {
 import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
-import { onAuthStateChanged } from 'firebase/auth';
 import React from 'react';
 
 export const useRegisterMutation = () => {
@@ -25,11 +23,11 @@ export const useRegisterMutation = () => {
         to: '/candidates',
       });
     },
-    onError: () => {
+    onError: (error) => {
       notifications.show({
         color: 'red',
         title: 'Error',
-        message: 'Error al crear usuario',
+        message: error.message || 'Error al crear usuario',
       });
     },
   });
@@ -48,11 +46,11 @@ export const useLoginMutation = () => {
         to: '/candidates',
       });
     },
-    onError: () => {
+    onError: (error) => {
       notifications.show({
         color: 'red',
         title: 'Error',
-        message: 'Error al iniciar usuario',
+        message: error.message || 'Error al iniciar sesión',
       });
     },
   });
@@ -75,7 +73,7 @@ export const useGoogleLoginMutation = () => {
       notifications.show({
         color: 'red',
         title: 'Error',
-        message: 'Error al iniciar usuario',
+        message: 'Error al iniciar sesión con Google',
       });
     },
   });
@@ -106,21 +104,17 @@ export const useLogoutMutation = () => {
 
 export const useGetUser = () => {
   const [user, setUser] = React.useState<UserType | null>(null);
+  const email = useAppStore((s) => s.email);
 
-  React.useLayoutEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser({
-          id: user?.uid || '',
-          email: user?.email || '',
-          name: user?.displayName || '',
-        });
-      } else {
-        setUser(null);
-      }
+  React.useEffect(() => {
+    let cancelled = false;
+    DataRepo.getCurrentUser().then((current) => {
+      if (!cancelled) setUser(current);
     });
-    return unsubscribe;
-  }, []);
+    return () => {
+      cancelled = true;
+    };
+  }, [email]);
 
   return user;
 };

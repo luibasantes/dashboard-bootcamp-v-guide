@@ -1,0 +1,58 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "email": "luigi@jelou.ai",
+      "password": "password123",
+      "name": "Luigi"
+    },
+    {
+      "id": "u2",
+      "email": "demo@demo.com",
+      "password": "demo123",
+      "name": "Demo User"
+    }
+  ],
+  "candidates": [
+    {
+      "id": "1",
+      "name": "Enmanuel",
+      "age": 26,
+      "experience": 3,
+      "skills": ["JavaScript", "React", "Node.js"],
+      "status": "Pending",
+      "working": true,
+      "deleted": false
+    },
+    {
+      "id": "2",
+      "name": "Jane Doe",
+      "age": 30,
+      "experience": 5,
+      "skills": ["Python", "Django", "Machine Learning"],
+      "status": "Interviewing",
+      "working": false,
+      "deleted": false
+    },
+    {
+      "id": "3",
+      "name": "Carlos Mendez",
+      "age": 28,
+      "experience": 4,
+      "skills": ["TypeScript", "Vue", "PostgreSQL"],
+      "status": "Reviewing",
+      "working": false,
+      "deleted": false
+    },
+    {
+      "id": "4",
+      "name": "Sofia Ramirez",
+      "age": 32,
+      "experience": 7,
+      "skills": ["Go", "Kubernetes", "AWS"],
+      "status": "Hired",
+      "working": true,
+      "deleted": false
+    }
+  ]
+}
