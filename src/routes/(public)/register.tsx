@@ -12,6 +12,7 @@ export const Route = createFileRoute('/(public)/register')({
 });
 
 const initial: EmailAndPasswordRegisterFormType = {
+  name: '',
   email: '',
   password: '',
   confirmPassword: '',
@@ -43,6 +44,17 @@ function RouteComponent() {
             form.handleSubmit(e);
           }}
         >
+          <form.AppField
+            name="name"
+            children={(field) => (
+              <TextInput
+                label="Name"
+                value={field.state.value}
+                error={field.state.meta.errors.at(0)?.message}
+                onChange={(e) => field.handleChange(e.currentTarget.value)}
+              />
+            )}
+          />
           <form.AppField
             name="email"
             children={(field) => (

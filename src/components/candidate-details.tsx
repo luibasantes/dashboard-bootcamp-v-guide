@@ -47,9 +47,13 @@ const CandidateDetails = (props: CandidateProps) => {
         <Flex justify="space-between">
           <Flex direction="column">
             <Flex align="center" justify="space-between">
-              <Title order={3}>{data.name}</Title>
+              <Title order={3}>
+                {data.name}
+                {data.lastname ? ` ${data.lastname}` : ''}
+              </Title>
             </Flex>
-            <Text>Age: {data.age}</Text>
+            <Text>Email: {data.email ?? 'N/A'}</Text>
+            <Text>Age: {data.age ?? 'N/A'}</Text>
           </Flex>
 
           <Badge color={statusColor(data.status)} mt={8} size="lg">
@@ -60,8 +64,27 @@ const CandidateDetails = (props: CandidateProps) => {
 
       {/* SECCIÓN DE DATOS PROFESIONALES */}
       <Fieldset legend="Professional Info">
+        <Text>Position: {data.position ?? 'N/A'}</Text>
+        <Text>
+          LinkedIn:{' '}
+          {data.linkedIn ? (
+            <a href={data.linkedIn} target="_blank" rel="noreferrer">
+              {data.linkedIn}
+            </a>
+          ) : (
+            'N/A'
+          )}
+        </Text>
+
         <Switch
-          label={optimisticWorkingState ? 'Currently Working' : 'Not Working'}
+          mt={12}
+          label={
+            optimisticWorkingState == null
+              ? 'Working: N/A'
+              : optimisticWorkingState
+                ? 'Currently Working'
+                : 'Not Working'
+          }
           mb={12}
           checked={optimisticWorkingState || false}
           onChange={(e) => {
@@ -69,7 +92,10 @@ const CandidateDetails = (props: CandidateProps) => {
           }}
         />
 
-        <Text>Experience: {data.experience} years</Text>
+        <Text>
+          Experience:{' '}
+          {data.experience != null ? `${data.experience} years` : 'N/A'}
+        </Text>
 
         <Text mt={12} mb={6}>
           Skills:
@@ -117,7 +143,18 @@ const CandidateDetails = (props: CandidateProps) => {
 
   // FUNCION PARA COPIAR LA INFO DEL CANDIDATO EN FORMATO DE TEXTO PLANO
   function copyInfo(info: CandidateType) {
-    const infoString = `Name: ${info.name}\nAge: ${info.age}\nExperience: ${info.experience} years\nStatus: ${info.status}\nSkills: ${info.skills.join(', ')}\nCurrently Working: ${info.working ? 'Yes' : 'No'}`;
+    const fullName = info.lastname ? `${info.name} ${info.lastname}` : info.name;
+    const infoString = [
+      `Name: ${fullName}`,
+      `Email: ${info.email ?? 'N/A'}`,
+      `Position: ${info.position ?? 'N/A'}`,
+      `LinkedIn: ${info.linkedIn ?? 'N/A'}`,
+      `Age: ${info.age ?? 'N/A'}`,
+      `Experience: ${info.experience != null ? `${info.experience} years` : 'N/A'}`,
+      `Status: ${info.status}`,
+      `Skills: ${info.skills.join(', ')}`,
+      `Currently Working: ${info.working == null ? 'N/A' : info.working ? 'Yes' : 'No'}`,
+    ].join('\n');
     navigator.clipboard.writeText(infoString);
   }
 };

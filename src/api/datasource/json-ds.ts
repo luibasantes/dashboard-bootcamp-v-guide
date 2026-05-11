@@ -136,7 +136,7 @@ class JsonDS extends DataDS {
       id: crypto.randomUUID(),
       email: params.email,
       password: params.password,
-      name: params.email.split('@')[0],
+      name: params.name,
     };
     users.push(newUser);
     this.setUsersRaw(users);
@@ -162,17 +162,6 @@ class JsonDS extends DataDS {
       id: user.id,
       email: user.email,
       name: user.name,
-    };
-    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(session));
-    return session;
-  }
-
-  async loginWithGoogle() {
-    await sleep();
-    const session: UserType = {
-      id: 'google-mock',
-      email: 'google.user@example.com',
-      name: 'Google Mock User',
     };
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(session));
     return session;

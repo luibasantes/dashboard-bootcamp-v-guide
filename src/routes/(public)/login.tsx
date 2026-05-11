@@ -1,8 +1,5 @@
 import { useAppForm } from '#/hooks/form/app.form';
-import {
-  useGoogleLoginMutation,
-  useLoginMutation,
-} from '#/hooks/mutation/auth';
+import { useLoginMutation } from '#/hooks/mutation/auth';
 import {
   EmailAndPasswordLoginSchema,
   type EmailAndPasswordLoginType,
@@ -29,8 +26,6 @@ const initial: EmailAndPasswordLoginType = {
 function RouteComponent() {
   const loginMutation = useLoginMutation();
 
-  const googleLoginMutation = useGoogleLoginMutation();
-
   const form = useAppForm({
     defaultValues: initial,
     validators: {
@@ -45,7 +40,7 @@ function RouteComponent() {
     },
   });
 
-  const isLoading = loginMutation.isPending || googleLoginMutation.isPending;
+  const isLoading = loginMutation.isPending;
 
   return (
     <Container>
@@ -82,16 +77,6 @@ function RouteComponent() {
           />
 
           <Stack mt="xl" gap="xs">
-            <Button
-              color="red"
-              loading={isLoading}
-              onClick={() => {
-                googleLoginMutation.mutate();
-              }}
-            >
-              Iniciar con Google
-            </Button>
-
             <form.SubmitButton loading={isLoading}>Login</form.SubmitButton>
           </Stack>
         </form>

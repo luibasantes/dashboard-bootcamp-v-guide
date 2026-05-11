@@ -56,29 +56,6 @@ export const useLoginMutation = () => {
   });
 };
 
-export const useGoogleLoginMutation = () => {
-  const navigate = useNavigate();
-  const setEmail = useAppStore((s) => s.setEmail);
-  return useMutation({
-    mutationFn: async () => {
-      return await DataRepo.loginWithGoogle();
-    },
-    onSuccess: (data) => {
-      setEmail(data.email);
-      navigate({
-        to: '/candidates',
-      });
-    },
-    onError: () => {
-      notifications.show({
-        color: 'red',
-        title: 'Error',
-        message: 'Error al iniciar sesión con Google',
-      });
-    },
-  });
-};
-
 export const useLogoutMutation = () => {
   const navigate = useNavigate();
   const setEmail = useAppStore((s) => s.setEmail);

@@ -34,8 +34,6 @@ abstract class DataDS {
     params: EmailAndPasswordLoginType,
   ): Promise<UserType>;
 
-  abstract loginWithGoogle(): Promise<UserType>;
-
   abstract logout(): Promise<void>;
 
   abstract getCurrentUser(): Promise<UserType | null>;

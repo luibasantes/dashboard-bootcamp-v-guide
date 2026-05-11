@@ -13,6 +13,7 @@ export type EmailAndPasswordLoginType = z.infer<
 
 export const EmailAndPasswordRegisterFormSchema =
   EmailAndPasswordLoginSchema.extend({
+    name: z.string().min(2, 'Escribir el nombre').max(40),
     confirmPassword: PasswordSchema,
   }).superRefine((data, ctx) => {
     if (data.password !== data.confirmPassword) {

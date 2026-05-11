@@ -25,11 +25,16 @@ export const Route = createFileRoute('/(private)/form/$candidateId')({
 
 const defaultValues: FormCandidateType = {
   name: '',
+  lastname: '',
+  email: '',
+  position: '',
+  linkedIn: '',
   age: 18,
   experience: 1,
   skills: [],
   status: 'Pending',
   working: false,
+  deleted: false,
 };
 
 function RouteComponent() {
@@ -103,6 +108,37 @@ function RouteComponent() {
           />
 
           <form.AppField
+            name="lastname"
+            children={(field) => (
+              <TextInput
+                label="Last name"
+                placeholder="Type the last name"
+                error={field.state.meta.errors[0]?.message}
+                value={field.state.value ?? ''}
+                onChange={(e) => {
+                  field.handleChange(e.currentTarget.value);
+                }}
+              />
+            )}
+          />
+
+          <form.AppField
+            name="email"
+            children={(field) => (
+              <TextInput
+                label="Email"
+                type="email"
+                placeholder="name@example.com"
+                error={field.state.meta.errors[0]?.message}
+                value={field.state.value ?? ''}
+                onChange={(e) => {
+                  field.handleChange(e.currentTarget.value);
+                }}
+              />
+            )}
+          />
+
+          <form.AppField
             name="age"
             children={(field) => (
               <NumberInput
@@ -110,7 +146,7 @@ function RouteComponent() {
                 placeholder="Type the age"
                 error={field.state.meta.errors[0]?.message}
                 min={18}
-                value={field.state.value}
+                value={field.state.value ?? undefined}
                 onChange={(value) => {
                   field.handleChange(Number(value));
                 }}
@@ -121,6 +157,36 @@ function RouteComponent() {
 
         <Fieldset legend="Professional Information" mt="md">
           <form.AppField
+            name="position"
+            children={(field) => (
+              <TextInput
+                label="Position"
+                placeholder="e.g. Frontend Developer"
+                error={field.state.meta.errors[0]?.message}
+                value={field.state.value ?? ''}
+                onChange={(e) => {
+                  field.handleChange(e.currentTarget.value);
+                }}
+              />
+            )}
+          />
+
+          <form.AppField
+            name="linkedIn"
+            children={(field) => (
+              <TextInput
+                label="LinkedIn URL"
+                placeholder="https://www.linkedin.com/in/..."
+                error={field.state.meta.errors[0]?.message}
+                value={field.state.value ?? ''}
+                onChange={(e) => {
+                  field.handleChange(e.currentTarget.value);
+                }}
+              />
+            )}
+          />
+
+          <form.AppField
             name="experience"
             children={(field) => (
               <NumberInput
@@ -128,7 +194,7 @@ function RouteComponent() {
                 placeholder="Type the years of experience"
                 error={field.state.meta.errors[0]?.message}
                 min={0}
-                value={field.state.value}
+                value={field.state.value ?? undefined}
                 onChange={(value) => {
                   field.handleChange(Number(value));
                 }}

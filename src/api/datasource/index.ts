@@ -1,5 +1,5 @@
-import JsonDS from './json-ds';
+import ApiDS from './api-ds';
 
-const DataRepo = new JsonDS();
+const DataRepo = new ApiDS();
 
 export default DataRepo;
